@@ -1,0 +1,24 @@
+{\rtf1\ansi\ansicpg936\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs26 \cf0 float sinc( float x, float k) \{\
+    float a = PI * (k * x - 1.);\
+    return sin(a)/a;\
+\}\
+\
+float sincTime(float t, float k) \{\
+	return .6 + 2.*sinc(t, k) / 2.\
+\}\
+\
+float expSustainedImpulse( float x, float f, float k )\{\
+    float s = max(x-f,0.0);\
+    return min( x*x/(f*f), 1.+(2.0/f)*s*exp(-k*s));\
+\}\
+\
+float pulseTime(float t) \{\
+	return expSustainedImpulse(u_time, .5, .6);\
+\}}
