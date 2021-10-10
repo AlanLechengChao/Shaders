@@ -1,0 +1,90 @@
+{\rtf1\ansi\ansicpg936\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;\red56\green183\blue49;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\csgray\c0\c0;\cssrgb\c25098\c75294\c25098;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww13180\viewh11560\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 // with origin point changed\
+// pct 0. - 1.\
+\
+#define PI 3.14159265359\
+#define TWO_PI 6.28318530718\
+\
+\
+float cubicPulse( float c, float w, float x )\
+\{\
+    x = abs(x - c);\
+    if( x>w ) return 0.0;\
+    x /= w;\
+    return 1.0 - x*x*(3.0-2.0*x);\
+\}\
+\
+\
+float polygon(int N, vec2 pos) \{\
+	float a = atan(st.x, st.y) + PI;\
+	float r = PI*2. / float(N);\
+	float d = 0.0;\
+	d = cos(floor(.5+a/r)*r - a)*length(pos);\
+	\
+	return d;\
+\}\
+\
+// polygons from inigo quilez\
+////v\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec4 float sdOrientedBox( in vec2 p, in vec2 a, in vec2 b, float th )\
+\{\
+    float l = length(b-a);\
+    vec2  d = (b-a)/l;\
+    vec2  q = (p-(a+b)*0.5);\
+          q = mat2(d.x,-d.y,d.y,d.x)*q;\
+          q = abs(q)-vec2(l,th)*0.5;\
+    return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    \
+\}\
+\
+float sdRhombus( in vec2 p, in vec2 b ) \
+\{\
+    vec2 q = abs(p);\
+    float h = clamp((-2.0*ndot(q,b)+ndot(b,b))/dot(b,b),-1.0,1.0);\
+    float d = length( q - 0.5*b*vec2(1.0-h,1.0+h) );\
+    return d * sign( q.x*b.y + q.y*b.x - b.x*b.y );\
+\}\
+\
+float opRound( in vec2 p, in float r )\
+\{\
+  return sdShape(p) - r;\
+\}\cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+float circle(vec2 pos, float radius) \{\
+    float d = distance(vec2(.5), pos);\
+    return step(d, radius*.5);\
+\}\
+\
+//  with pos as input\
+vec2 rotate2d(vec2 pos, float angle) \{\
+  pos -= vec2(.5);\
+  pos = mat2(cos(angle), -sin(angle), sin(angle), cos(angle)) * pos;\
+  pos += vec2(.5);\
+  return pos;\
+\}\
+\
+// without pos input\
+mat2 rotate2d(float angle) \{\
+    return mat2(cos(angle), -sin(angle), \
+                sin(angle), cos(angle));\
+\}\
+\
+mat2 scale(vec2 scaleFactor) \{\
+    return mat2(scaleFactor.x, 0.,\
+                0., scaleFactor.y);\
+\}\
+\
+}
